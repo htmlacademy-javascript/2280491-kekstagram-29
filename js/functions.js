@@ -1,37 +1,34 @@
-function stringLengthCheck (str, maxlength) {
-  return str <= maxlength;
-}
+const stringLengthCheck = (str, maxlength) => str <= maxlength;
 
 stringLengthCheck(25, 24);
 
-function isPalindrome (str) {
+const isPalindrome = (str) => {
   const firstStr = str.replaceAll(' ', '').toLowerCase();
   let secondStr = '';
 
   for (let i = firstStr.length - 1; i >= 0; i--) {
-    secondStr += firstStr.at(i);
+    secondStr += firstStr[i];
   }
 
   return firstStr === secondStr;
-}
+};
 
 isPalindrome('тОпот топоТ');
 
-function extractNumber (data) {
+const extractNumber = (data) => {
   let result = '';
-  let str = data;
 
-  if (typeof(data) === 'number') {
-    str = data.toString();
+  if (typeof data === 'number') {
+    return data;
   }
 
-  for (let i = 0; i <= str.length - 1; i++) {
-
-    if (!isNaN(str.at(i))) {
-      result += str.at(i);
+  for (const value of data) {
+    if (!isNaN(value)) {
+      result += value;
     }
   }
-  return parseInt(result, 10);
-}
 
-extractNumber(5533);
+  return parseInt(result, 10);
+};
+
+extractNumber('dhdh45');
