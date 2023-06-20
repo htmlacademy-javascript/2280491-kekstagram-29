@@ -32,6 +32,8 @@ const getRandomInteger = (a, b) => {
   return Math.floor(result);
 };
 
+const getRandomArrayElement = (elements) => elements[getRandomInteger(0, elements.length - 1)];
+
 let commentId = 1;
 
 const getComments = (numberOfComments) => {
@@ -40,8 +42,8 @@ const getComments = (numberOfComments) => {
     comments.push({
       id: commentId,
       avatar: `img/avatar-${getRandomInteger(0, 6)}.svg`,
-      message: MESSAGES[getRandomInteger(0, MESSAGES.length - 1)],
-      name: NAMES[getRandomInteger(0, NAMES.length - 1)]
+      message: getRandomArrayElement(MESSAGES),
+      name: getRandomArrayElement(NAMES)
     });
     commentId += 1;
   }
@@ -50,11 +52,11 @@ const getComments = (numberOfComments) => {
 
 const createPhotos = () => {
   const photos = [];
-  for (let i = 0; i < 25; i++) {
+  for (let i = 1; i < 26; i++) {
     photos.push({
       id: i,
       url: `photos/${i}.jpg`,
-      description: DESCRIPTIONS[getRandomInteger(0, DESCRIPTIONS.length - 1)],
+      description: getRandomArrayElement(DESCRIPTIONS),
       likes: getRandomInteger(15, 200),
       comments: getComments(getRandomInteger(0, 30))
     });
