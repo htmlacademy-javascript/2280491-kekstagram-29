@@ -1,7 +1,7 @@
 # Личный проект «Кекстаграм»
 
 * Студент: [Надежда Дормидонтова](https://up.htmlacademy.ru/javascript/29/user/2280491).
-* Наставник: [Arthur Litovko](https://htmlacademy.ru/profile/id6927).
+* Наставник: [Роман Марченко](https://htmlacademy.ru/profile/id505487).
 
 ---
 
