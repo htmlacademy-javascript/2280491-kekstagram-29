@@ -32,3 +32,19 @@ const extractNumber = (data) => {
 };
 
 extractNumber('dhdh45');
+
+const meetingHours = (workStarts, workEnds, meetingStarts, meetingDuration) => {
+  const timeInMinutes = (hours) => {
+    const timeParts = hours.split(':');
+    return Number(timeParts[0]) * 60 + Number(timeParts[1]);
+  };
+
+  return timeInMinutes(meetingStarts) >= timeInMinutes(workStarts)
+    && timeInMinutes(meetingStarts) + meetingDuration <= timeInMinutes(workEnds);
+};
+
+meetingHours('08:00', '17:30', '14:00', 90);
+meetingHours('8:0', '10:0', '8:0', 120);
+meetingHours('08:00', '14:30', '14:00', 90);
+meetingHours('14:00', '17:30', '08:0', 90);
+meetingHours('8:00', '17:30', '08:00', 900);
