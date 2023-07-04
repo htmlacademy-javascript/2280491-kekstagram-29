@@ -8,13 +8,17 @@ const onPictureActions = () => {
       bigPicture.classList.remove('hidden');
 
       const bigPictureImg = document.querySelector('.big-picture__img img');
-      const bigPicturelikes = document.querySelector('.likes-count');
-      const bigPictureComments = document.querySelector('.comments-count');
+      const bigPictureLikes = document.querySelector('.likes-count');
+      const bigPictureCommentsNumber = document.querySelector('.comments-count');
+      const bigPictureDescription = document.querySelector('.social__caption');
+      // const bigPictureComments = document.querySelector('.social__comments');
       const thumbnailLikes = evt.target.parentElement.querySelector('.picture__likes');
       const thumbnailComments = evt.target.parentElement.querySelector('.picture__comments');
+      const thumbnailDescription = evt.target.parentElement.querySelector('.picture__info');
       bigPictureImg.src = evt.target.src;
-      bigPicturelikes.textContent = thumbnailLikes.textContent;
-      bigPictureComments.textContent = thumbnailComments.textContent;
+      bigPictureDescription.textContent = thumbnailDescription.getAttribute('alt');
+      bigPictureLikes.textContent = thumbnailLikes.textContent;
+      bigPictureCommentsNumber.textContent = thumbnailComments.textContent;
     }
   };
 
