@@ -3,6 +3,14 @@ const onModalActions = (photosArr) => {
   const bigPicture = document.querySelector('.big-picture');
   const closeBtn = document.querySelector('.big-picture__cancel');
 
+  const loadComments = () => {
+    const allComments = document.querySelectorAll('.social__comment[style*="display: none"]');
+    const len = allComments.length >= 5 ? 5 : allComments.length;
+    for (let i = 0; i < len; i++) {
+      allComments[i].style.display = 'flex';
+    }
+  };
+
   const modalOpen = (evt) => {
     if (evt.target.classList.contains('picture__img')) {
       bigPicture.classList.remove('hidden');
@@ -20,10 +28,14 @@ const onModalActions = (photosArr) => {
       bigPictureDescription.textContent = thumbnailDescription.getAttribute('alt');
       bigPictureLikes.textContent = thumbnailLikes.textContent;
       bigPictureCommentsNumber.textContent = thumbnailCommentsNumber.textContent;
-      document.querySelector('.social__comment-count').classList.add('hidden');
-      document.querySelector('.comments-loader').classList.add('hidden');
+      // const allCommentsNumber = document.querySelector('.social__comment-count');
+      const commentLoaderBtn = document.querySelector('.comments-loader');
       document.body.classList.add('modal-open');
       const thumbnailId = evt.target.parentElement.getAttribute('data-id');
+
+      commentLoaderBtn.addEventListener('click', () => {
+        loadComments();
+      });
 
       const arrElement = photosArr.find((element) => element.id === Number(thumbnailId));
 
@@ -35,6 +47,7 @@ const onModalActions = (photosArr) => {
         comment.querySelector('.social__comment img').setAttribute('src', avatar);
         comment.querySelector('.social__comment img').setAttribute('alt', name);
         comment.querySelector('.social__text').textContent = message;
+        comment.querySelector('.social__comment').style.display = 'none';
 
         return comment;
       };
@@ -47,8 +60,8 @@ const onModalActions = (photosArr) => {
         });
         bigPictureComments.append(fragment);
       };
-
       renderComments(arrElement);
+      loadComments();
     }
   };
 
