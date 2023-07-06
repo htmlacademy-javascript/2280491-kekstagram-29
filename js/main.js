@@ -1,4 +1,7 @@
-import {createPhotos} from './data.js';
-import {renderThumbnails} from './thumbnails.js';
+import { createPhotos } from './data.js';
+import { renderThumbnails } from './thumbnails.js';
+import { onModalActions } from './full-size-pictures.js';
 
-renderThumbnails(createPhotos());
+const photosArr = createPhotos();
+renderThumbnails(photosArr);
+onModalActions(photosArr);
