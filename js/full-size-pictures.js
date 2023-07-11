@@ -75,7 +75,7 @@ const onModalOpenClick = (evt, photosArr) => {
     bigPictureElement.classList.remove('hidden');
     document.body.classList.add('modal-open');
 
-    currentThumbnail = evt.target.parentElement;
+    currentThumbnail = evt.target.closest('.picture');
 
     processThumbnail();
     initComments(photosArr);
