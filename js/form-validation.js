@@ -1,6 +1,6 @@
 const form = document.querySelector('#upload-select-image');
 
-new Pristine(form);
+const pristine = new Pristine(form);
 
 form.addEventListener('submit', (evt) => {
   evt.preventDefault();

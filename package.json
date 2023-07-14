@@ -27,7 +27,5 @@
   "volta": {
     "node": "18.16.0"
   },
-  "dependencies": {
-    "pristinejs": "^1.1.0"
-  }
+  "dependencies": {}
 }

@@ -1,3 +1,5 @@
+import { createSlider, onPictureEffect, destroySlider } from './photo-effects.js';
+
 const SCALE_SIZES = {
   STEP: 25,
   MAX: 100,
@@ -11,6 +13,7 @@ const imgUploadCloseElement = document.querySelector('.img-upload__cancel');
 const scaleControlMinusElement = document.querySelector('.scale__control--smaller');
 const scaleControlPlusElement = document.querySelector('.scale__control--bigger');
 const scaleControlValueElement = document.querySelector('.scale__control--value');
+const effectsListElement = document.querySelector('.effects__list');
 
 const onModalCloseClick = () => {
   closeModal();
@@ -25,7 +28,7 @@ const onModalCloseEscape = (evt) => {
 
 const scaleImg = () => {
   const imgUploadPreviewImgElement = document.querySelector('.img-upload__preview img');
-  imgUploadPreviewImgElement.style.transform = `scale(${currentScale / 100})`;
+  imgUploadPreviewImgElement.style.transform = `scale(${currentScale / SCALE_SIZES.MAX})`;
   scaleControlValueElement.value = `${currentScale}%`;
 };
 
@@ -53,6 +56,7 @@ const addModalEventListeneres = () => {
   document.addEventListener('keydown', onModalCloseEscape);
   scaleControlPlusElement.addEventListener('click', onPictureIncrease);
   scaleControlMinusElement.addEventListener('click', onPictureDecrease);
+  effectsListElement.addEventListener('click', onPictureEffect);
 };
 
 const removeModalEventListeneres = () => {
@@ -60,6 +64,7 @@ const removeModalEventListeneres = () => {
   document.removeEventListener('keydown', onModalCloseEscape);
   scaleControlPlusElement.removeEventListener('click', onPictureIncrease);
   scaleControlMinusElement.removeEventListener('click', onPictureDecrease);
+  effectsListElement.removeEventListener('click', onPictureEffect);
 };
 
 const onFileChange = () => {
@@ -68,6 +73,7 @@ const onFileChange = () => {
 
   resetImgScale();
   addModalEventListeneres();
+  createSlider();
 };
 
 const uploadImg = () => {
@@ -80,6 +86,7 @@ function closeModal() {
   imgUploadInputElement.value = '';
 
   removeModalEventListeneres();
+  destroySlider();
 }
 
 export { uploadImg };
