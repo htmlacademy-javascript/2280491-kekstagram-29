@@ -4,7 +4,6 @@ const EFFECTS = [
     minValue: 0,
     maxValue: 1,
     step: 0.1,
-    start: 0,
     filter: 'grayscale',
     measure: '',
   },
@@ -13,7 +12,6 @@ const EFFECTS = [
     minValue: 0,
     maxValue: 1,
     step: 0.1,
-    start: 0,
     filter: 'sepia',
     measure: '',
   },
@@ -22,7 +20,6 @@ const EFFECTS = [
     minValue: 0,
     maxValue: 100,
     step: 1,
-    start: 0,
     filter: 'invert',
     measure: '%',
   },
@@ -31,7 +28,6 @@ const EFFECTS = [
     minValue: 0,
     maxValue: 3,
     step: 0.1,
-    start: 0,
     filter: 'blur',
     measure: 'px',
   },
@@ -40,20 +36,22 @@ const EFFECTS = [
     minValue: 1,
     maxValue: 3,
     step: 0.1,
-    start: 1,
     filter: 'brightness',
     measure: '',
   }
 ];
 
 const imgUploadPreviewImgElement = document.querySelector('.img-upload__preview img');
+const imgUploadEffectLevel = document.querySelector('.img-upload__effect-level');
 const sliderElement = document.querySelector('.effect-level__slider');
+const effectLevelValueElement = document.querySelector('.effect-level__value');
 let effect;
 
 const onSliderValueUpdate = () => {
   if (effect) {
     const sliderValue = sliderElement.noUiSlider.get();
     imgUploadPreviewImgElement.style.filter = `${effect.filter}(${sliderValue}${effect.measure})`;
+    effectLevelValueElement.value = parseFloat(sliderValue);
   }
 };
 
@@ -63,10 +61,11 @@ const createSlider = () => {
       min: EFFECTS[0].minValue,
       max: EFFECTS[0].maxValue,
     },
-    start: EFFECTS[0].start,
+    start: EFFECTS[0].maxValue,
     step: EFFECTS[0].step
   });
 
+  imgUploadEffectLevel.classList.add('hidden');
   sliderElement.noUiSlider.on('update', onSliderValueUpdate);
 };
 
@@ -76,7 +75,7 @@ const updateSlider = () => {
       min: effect.minValue,
       max: effect.maxValue,
     },
-    start: effect.start,
+    start: effect.maxValue,
     step: effect.step
   });
 };
@@ -84,8 +83,15 @@ const updateSlider = () => {
 const onPictureEffect = (evt) => {
   if (evt.target.classList.contains('effects__radio')) {
     const effectValue = evt.target.value;
-    effect = EFFECTS.find((element) => element.name === effectValue);
-    updateSlider();
+    if (evt.target.value === 'none') {
+      imgUploadEffectLevel.classList.add('hidden');
+      imgUploadPreviewImgElement.style.filter = 'none';
+      effectLevelValueElement.value = '';
+    } else {
+      imgUploadEffectLevel.classList.remove('hidden');
+      effect = EFFECTS.find((element) => element.name === effectValue);
+      updateSlider();
+    }
   }
 };
 
