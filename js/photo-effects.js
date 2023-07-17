@@ -67,6 +67,7 @@ const createSlider = () => {
 
   imgUploadEffectLevel.classList.add('hidden');
   sliderElement.noUiSlider.on('update', onSliderValueUpdate);
+  imgUploadPreviewImgElement.style.filter = 'none';
 };
 
 const updateSlider = () => {
@@ -87,6 +88,7 @@ const onPictureEffect = (evt) => {
       imgUploadEffectLevel.classList.add('hidden');
       imgUploadPreviewImgElement.style.filter = 'none';
       effectLevelValueElement.value = '';
+      effect = null;
     } else {
       imgUploadEffectLevel.classList.remove('hidden');
       effect = EFFECTS.find((element) => element.name === effectValue);
@@ -96,7 +98,10 @@ const onPictureEffect = (evt) => {
 };
 
 const destroySlider = () => {
+  const originalEffect = document.querySelector('#effect-none');
+  originalEffect.checked = true;
   sliderElement.noUiSlider.destroy();
+  effect = null;
 };
 
 export { createSlider, onPictureEffect, destroySlider };

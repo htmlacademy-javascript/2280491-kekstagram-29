@@ -1,4 +1,5 @@
 import { createSlider, onPictureEffect, destroySlider } from './photo-effects.js';
+import { onSubmit } from './form-validation.js';
 
 const SCALE_SIZES = {
   STEP: 25,
@@ -14,6 +15,9 @@ const scaleControlMinusElement = document.querySelector('.scale__control--smalle
 const scaleControlPlusElement = document.querySelector('.scale__control--bigger');
 const scaleControlValueElement = document.querySelector('.scale__control--value');
 const effectsListElement = document.querySelector('.effects__list');
+const textHashtagsElement = document.querySelector('.text__hashtags');
+const textDescription = document.querySelector('.text__description');
+const formElement = document.querySelector('#upload-select-image');
 
 const onModalCloseClick = () => {
   closeModal();
@@ -51,12 +55,21 @@ const onPictureDecrease = () => {
   }
 };
 
+const onInputKeydown = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.stopPropagation();
+  }
+};
+
 const addModalEventListeneres = () => {
   imgUploadCloseElement.addEventListener('click', onModalCloseClick);
   document.addEventListener('keydown', onModalCloseEscape);
   scaleControlPlusElement.addEventListener('click', onPictureIncrease);
   scaleControlMinusElement.addEventListener('click', onPictureDecrease);
   effectsListElement.addEventListener('click', onPictureEffect);
+  formElement.addEventListener('submit', onSubmit);
+  textHashtagsElement.addEventListener('keydown', onInputKeydown);
+  textDescription.addEventListener('keydown', onInputKeydown);
 };
 
 const removeModalEventListeneres = () => {
@@ -65,6 +78,9 @@ const removeModalEventListeneres = () => {
   scaleControlPlusElement.removeEventListener('click', onPictureIncrease);
   scaleControlMinusElement.removeEventListener('click', onPictureDecrease);
   effectsListElement.removeEventListener('click', onPictureEffect);
+  formElement.removeEventListener('submit', onSubmit);
+  textHashtagsElement.removeEventListener('keydown', onInputKeydown);
+  textDescription.removeEventListener('keydown', onInputKeydown);
 };
 
 const onFileChange = () => {
@@ -84,6 +100,8 @@ function closeModal() {
   imgUploadOverlayElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
   imgUploadInputElement.value = '';
+  textHashtagsElement.value = '';
+  textDescription.value = '';
 
   removeModalEventListeneres();
   destroySlider();
