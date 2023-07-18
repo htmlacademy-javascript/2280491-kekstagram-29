@@ -16,8 +16,13 @@ const onSubmit = (evt) => {
   }
 };
 
+const normalizeTags = (value) => value
+  .trim()
+  .split(' ')
+  .filter((tag) => Boolean(tag.length));
+
 const validateuniqueHashtags = (value) => {
-  const hashtags = value.trim().split(' ');
+  const hashtags = normalizeTags(value);
   // Возвращается кол-я уникальных хэштегов
   const uniqueHashtags = new Set(hashtags.map((hashtag) => hashtag.toLowerCase()));
   // Сравниваем длину изначального массива и длину коллекции
@@ -25,13 +30,13 @@ const validateuniqueHashtags = (value) => {
 };
 
 const validateRegexpHashtags = (value) => {
-  const hashtags = value.trim().split(' ');
+  const hashtags = normalizeTags(value);
   const hashtagRegexp = /^#[a-zа-яё0-9]{1,19}$/i;
   return hashtags.find((hashtag) => !hashtagRegexp.test(hashtag)) === undefined;
 };
 
 const validateHashtagsNumber = (value) => {
-  const hashtags = value.trim().split(' ');
+  const hashtags = normalizeTags(value);
   return hashtags.length <= HASHTAGS_MAX_NUMBER;
 };
 
