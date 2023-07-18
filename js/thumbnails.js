@@ -1,3 +1,5 @@
+import { onModalOpenClick } from './full-size-pictures.js';
+
 const picturesContainerElement = document.querySelector('.pictures');
 const templateThumbnailElement = document.querySelector('#picture').content;
 const templatePicture = templateThumbnailElement.querySelector('.picture');
@@ -22,6 +24,7 @@ const renderThumbnails = (pictures) => {
   });
 
   picturesContainerElement.appendChild(fragment);
+  picturesContainerElement.addEventListener('click', (evt) => onModalOpenClick(evt, pictures));
 };
 
 export { renderThumbnails };
