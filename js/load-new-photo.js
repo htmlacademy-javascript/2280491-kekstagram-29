@@ -2,11 +2,11 @@ import { createSlider, onPictureEffect, destroySlider } from './photo-effects.js
 import { onSubmit } from './form-validation.js';
 
 const SCALE_SIZES = {
-  STEP: 25,
-  MAX: 100,
-  MIN: 25,
+  step: 25,
+  max: 100,
+  min: 25,
 };
-let currentScale = SCALE_SIZES.MAX;
+let currentScale = SCALE_SIZES.max;
 
 const imgUploadInputElement = document.querySelector('#upload-file');
 const imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
@@ -16,7 +16,7 @@ const scaleControlPlusElement = document.querySelector('.scale__control--bigger'
 const scaleControlValueElement = document.querySelector('.scale__control--value');
 const effectsListElement = document.querySelector('.effects__list');
 const textHashtagsElement = document.querySelector('.text__hashtags');
-const textDescription = document.querySelector('.text__description');
+const textDescriptionElement = document.querySelector('.text__description');
 const formElement = document.querySelector('#upload-select-image');
 
 const onModalCloseClick = () => {
@@ -32,25 +32,25 @@ const onModalCloseEscape = (evt) => {
 
 const scaleImg = () => {
   const imgUploadPreviewImgElement = document.querySelector('.img-upload__preview img');
-  imgUploadPreviewImgElement.style.transform = `scale(${currentScale / SCALE_SIZES.MAX})`;
+  imgUploadPreviewImgElement.style.transform = `scale(${currentScale / SCALE_SIZES.max})`;
   scaleControlValueElement.value = `${currentScale}%`;
 };
 
 const resetImgScale = () => {
-  currentScale = SCALE_SIZES.MAX;
+  currentScale = SCALE_SIZES.max;
   scaleImg();
 };
 
 const onPictureIncrease = () => {
-  if (currentScale < SCALE_SIZES.MAX) {
-    currentScale += SCALE_SIZES.STEP;
+  if (currentScale < SCALE_SIZES.max) {
+    currentScale += SCALE_SIZES.step;
     scaleImg();
   }
 };
 
 const onPictureDecrease = () => {
-  if (currentScale > SCALE_SIZES.MIN) {
-    currentScale -= SCALE_SIZES.STEP;
+  if (currentScale > SCALE_SIZES.min) {
+    currentScale -= SCALE_SIZES.step;
     scaleImg();
   }
 };
@@ -69,7 +69,7 @@ const addModalEventListeneres = () => {
   effectsListElement.addEventListener('click', onPictureEffect);
   formElement.addEventListener('submit', onSubmit);
   textHashtagsElement.addEventListener('keydown', onInputKeydown);
-  textDescription.addEventListener('keydown', onInputKeydown);
+  textDescriptionElement.addEventListener('keydown', onInputKeydown);
 };
 
 const removeModalEventListeneres = () => {
@@ -80,7 +80,7 @@ const removeModalEventListeneres = () => {
   effectsListElement.removeEventListener('click', onPictureEffect);
   formElement.removeEventListener('submit', onSubmit);
   textHashtagsElement.removeEventListener('keydown', onInputKeydown);
-  textDescription.removeEventListener('keydown', onInputKeydown);
+  textDescriptionElement.removeEventListener('keydown', onInputKeydown);
 };
 
 const onFileChange = () => {
@@ -101,7 +101,7 @@ function closeModal() {
   document.body.classList.remove('modal-open');
   imgUploadInputElement.value = '';
   textHashtagsElement.value = '';
-  textDescription.value = '';
+  textDescriptionElement.value = '';
 
   removeModalEventListeneres();
   destroySlider();
