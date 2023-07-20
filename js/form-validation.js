@@ -23,9 +23,7 @@ const normalizeTags = (value) => value
 
 const validateuniqueHashtags = (value) => {
   const hashtags = normalizeTags(value);
-  // Возвращается кол-я уникальных хэштегов
   const uniqueHashtags = new Set(hashtags.map((hashtag) => hashtag.toLowerCase()));
-  // Сравниваем длину изначального массива и длину коллекции
   return hashtags.length === uniqueHashtags.size;
 };
 
