@@ -1,3 +1,6 @@
+import { sendFormData } from './requests.js';
+import { closeModal } from './load-new-photo.js';
+
 const HASHTAGS_MAX_NUMBER = 5;
 const formElement = document.querySelector('#upload-select-image');
 const hashtagsInputElement = formElement.querySelector('.text__hashtags');
@@ -7,12 +10,48 @@ const pristine = new Pristine(formElement, {
   errorTextParent: 'img-upload__field-wrapper',
 });
 
+
+const onMessageClose = (modalMessage) => {
+  modalMessage.remove();
+};
+
+const onOutsideMessageClick = (evt) => {
+  if (evt.target.classList.contains('success') || evt.target.classList.contains('error')) {
+    evt.target.remove();
+  }
+};
+
+const onSuccess = () => {
+  const successMoadalElement = document.querySelector('#success').content;
+  const successMessage = successMoadalElement.cloneNode(true);
+  const successMessageModalElement = successMessage.querySelector('.success');
+  const successButtonElement = successMessageModalElement.querySelector('.success__button');
+  document.body.append(successMessage);
+  successButtonElement.addEventListener('click', () => onMessageClose(successMessageModalElement));
+  successMessageModalElement.addEventListener('click', onOutsideMessageClick);
+  closeModal();
+};
+
+const onError = (text = null) => {
+  const errorModalElement = document.querySelector('#error').content;
+  const errorMessage = errorModalElement.cloneNode(true);
+  const errorMessageModalElement = errorMessage.querySelector('.error');
+  const errorButtonElement = errorMessageModalElement.querySelector('.error__button');
+  if (text) {
+    const errorTitleElement = errorMessageModalElement.querySelector('.error__title');
+    errorTitleElement.textContent = text;
+  }
+  document.body.append(errorMessage);
+  errorButtonElement.addEventListener('click', () => onMessageClose(errorMessageModalElement));
+  errorMessageModalElement.addEventListener('click', onOutsideMessageClick);
+};
+
 const onSubmit = (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
-    formElement.submit();
+    sendFormData(evt.target, onSuccess, onError);
   }
 };
 
@@ -56,4 +95,4 @@ pristine.addValidator(
   'превышено количество хэш-тегов'
 );
 
-export { onSubmit };
+export { onSubmit, onMessageClose, onError };

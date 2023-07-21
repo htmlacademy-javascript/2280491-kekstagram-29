@@ -1,7 +1,6 @@
-import { createPhotos } from './data.js';
-import { renderThumbnails } from './thumbnails.js';
+import { getData } from './requests.js';
+import { onThumbnailsLoaded, onThumbnailsLoadedError } from './thumbnails.js';
 import { uploadImg } from './load-new-photo.js';
 
-const photosArr = createPhotos();
-renderThumbnails(photosArr);
+getData(onThumbnailsLoaded, onThumbnailsLoadedError);
 uploadImg();
