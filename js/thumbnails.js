@@ -1,4 +1,5 @@
 import { onModalOpenClick } from './full-size-pictures.js';
+import { onError } from './form-validation.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 const templateThumbnailElement = document.querySelector('#picture').content;
@@ -27,4 +28,12 @@ const renderThumbnails = (pictures) => {
   picturesContainerElement.addEventListener('click', (evt) => onModalOpenClick(evt, pictures));
 };
 
-export { renderThumbnails };
+const onThumbnailsLoaded = (response) => {
+  renderThumbnails(response);
+};
+
+const onThumbnailsLoadedError = () => {
+  onError('Упс, что-то пошло не так.');
+};
+
+export { onThumbnailsLoaded, onThumbnailsLoadedError };
