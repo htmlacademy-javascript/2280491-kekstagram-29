@@ -30,6 +30,8 @@ const renderThumbnails = (pictures) => {
 
 const onThumbnailsLoaded = (response) => {
   renderThumbnails(response);
+  const filtersBlock = document.querySelector('.img-filters');
+  filtersBlock.classList.remove('img-filters--inactive');
 };
 
 const onThumbnailsLoadedError = () => {
