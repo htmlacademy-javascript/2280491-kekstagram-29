@@ -28,11 +28,11 @@ const renderThumbnails = (pictures) => {
   });
 
   picturesContainerElement.appendChild(fragment);
-  picturesContainerElement.addEventListener('click', (evt) => onModalOpenClick(evt, pictures));
 };
 
 const onThumbnailsLoaded = (response) => {
   renderThumbnails(response);
+  picturesContainerElement.addEventListener('click', (evt) => onModalOpenClick(evt, response));
   document.querySelector('.img-filters').classList.remove('img-filters--inactive');
   initializeFilter(response, debounce(renderThumbnails));
 };
