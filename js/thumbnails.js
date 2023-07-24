@@ -1,5 +1,7 @@
 import { onModalOpenClick } from './full-size-pictures.js';
 import { onError } from './form-validation.js';
+import { initializeFilter } from './filters.js';
+import { debounce } from './util.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 const templateThumbnailElement = document.querySelector('#picture').content;
@@ -18,6 +20,7 @@ const createThumbnail = ({ id, url, description, likes, comments }) => {
 };
 
 const renderThumbnails = (pictures) => {
+  document.querySelectorAll('.picture').forEach((element) => element.remove());
   const fragment = document.createDocumentFragment();
   pictures.forEach((picture) => {
     const thumbnail = createThumbnail(picture);
@@ -25,11 +28,13 @@ const renderThumbnails = (pictures) => {
   });
 
   picturesContainerElement.appendChild(fragment);
-  picturesContainerElement.addEventListener('click', (evt) => onModalOpenClick(evt, pictures));
 };
 
 const onThumbnailsLoaded = (response) => {
   renderThumbnails(response);
+  picturesContainerElement.addEventListener('click', (evt) => onModalOpenClick(evt, response));
+  document.querySelector('.img-filters').classList.remove('img-filters--inactive');
+  initializeFilter(response, debounce(renderThumbnails));
 };
 
 const onThumbnailsLoadedError = () => {
