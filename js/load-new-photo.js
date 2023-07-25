@@ -6,6 +6,7 @@ const SCALE_SIZES = {
   max: 100,
   min: 25,
 };
+const FILE_TYPES = ['jpg', 'jpeg', 'png'];
 let currentScale = SCALE_SIZES.max;
 
 const imgUploadInputElement = document.querySelector('#upload-file');
@@ -18,6 +19,7 @@ const effectsListElement = document.querySelector('.effects__list');
 const textHashtagsElement = document.querySelector('.text__hashtags');
 const textDescriptionElement = document.querySelector('.text__description');
 const formElement = document.querySelector('#upload-select-image');
+const imgUploadPreviewImgElement = document.querySelector('.img-upload__preview img');
 
 const onModalCloseClick = () => {
   closeModal();
@@ -36,7 +38,6 @@ const onModalCloseEscape = (evt) => {
 };
 
 const scaleImg = () => {
-  const imgUploadPreviewImgElement = document.querySelector('.img-upload__preview img');
   imgUploadPreviewImgElement.style.transform = `scale(${currentScale / SCALE_SIZES.max})`;
   scaleControlValueElement.value = `${currentScale}%`;
 };
@@ -91,6 +92,16 @@ const removeModalEventListeneres = () => {
 const onFileChange = () => {
   imgUploadOverlayElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
+  const file = imgUploadInputElement.files[0];
+  const fileName = file.name.toLowerCase();
+  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  if (matches) {
+    const uploadedFile = URL.createObjectURL(file);
+    imgUploadPreviewImgElement.src = uploadedFile;
+    document.querySelectorAll('.effects__preview').forEach((element) => {
+      element.style.backgroundImage = `url(${URL.createObjectURL(file)})`;
+    });
+  }
 
   resetImgScale();
   addModalEventListeneres();
