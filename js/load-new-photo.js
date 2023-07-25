@@ -1,13 +1,13 @@
 import { createSlider, onPictureEffect, destroySlider } from './photo-effects.js';
-import { onSubmit, onMessageClose } from './form-validation.js';
+import { onSubmit, onMessageClose, clearFormValidation } from './form-validation.js';
 
-const SCALE_SIZES = {
-  step: 25,
-  max: 100,
-  min: 25,
+const ScaleSizes = {
+  STEP: 25,
+  MAX: 100,
+  MIN: 25,
 };
 const FILE_TYPES = ['jpg', 'jpeg', 'png'];
-let currentScale = SCALE_SIZES.max;
+let currentScale = ScaleSizes.MAX;
 
 const imgUploadInputElement = document.querySelector('#upload-file');
 const imgUploadOverlayElement = document.querySelector('.img-upload__overlay');
@@ -38,25 +38,25 @@ const onModalCloseEscape = (evt) => {
 };
 
 const scaleImg = () => {
-  imgUploadPreviewImgElement.style.transform = `scale(${currentScale / SCALE_SIZES.max})`;
+  imgUploadPreviewImgElement.style.transform = `scale(${currentScale / ScaleSizes.MAX})`;
   scaleControlValueElement.value = `${currentScale}%`;
 };
 
 const resetImgScale = () => {
-  currentScale = SCALE_SIZES.max;
+  currentScale = ScaleSizes.MAX;
   scaleImg();
 };
 
 const onPictureIncrease = () => {
-  if (currentScale < SCALE_SIZES.max) {
-    currentScale += SCALE_SIZES.step;
+  if (currentScale < ScaleSizes.MAX) {
+    currentScale += ScaleSizes.STEP;
     scaleImg();
   }
 };
 
 const onPictureDecrease = () => {
-  if (currentScale > SCALE_SIZES.min) {
-    currentScale -= SCALE_SIZES.step;
+  if (currentScale > ScaleSizes.MIN) {
+    currentScale -= ScaleSizes.STEP;
     scaleImg();
   }
 };
@@ -118,7 +118,9 @@ function closeModal() {
   imgUploadInputElement.value = '';
   textHashtagsElement.value = '';
   textDescriptionElement.value = '';
+  scaleControlValueElement.value = '100%';
 
+  clearFormValidation();
   removeModalEventListeneres();
   destroySlider();
 }
