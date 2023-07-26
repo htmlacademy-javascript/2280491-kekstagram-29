@@ -1,6 +1,6 @@
 const PICTURES_COUNT = 10;
 
-const filtersId = {
+const FiltersId = {
   DEFAULT: 'filter-default',
   RANDOM: 'filter-random',
   DISCUSSED: 'filter-discussed',
@@ -8,16 +8,16 @@ const filtersId = {
 
 const sortRandomly = () => Math.random() - 0.5;
 let pictures = [];
-let currentId = filtersId.DEFAULT;
+let currentId = FiltersId.DEFAULT;
 
 const sortByComments = (pictureA, pictureB) =>
   pictureB.comments.length - pictureA.comments.length;
 
 const getFilteredArray = () => {
   switch (currentId) {
-    case filtersId.RANDOM:
+    case FiltersId.RANDOM:
       return [...pictures].sort(sortRandomly).slice(0, PICTURES_COUNT);
-    case filtersId.DISCUSSED:
+    case FiltersId.DISCUSSED:
       return [...pictures].sort(sortByComments);
     default:
       return [...pictures];

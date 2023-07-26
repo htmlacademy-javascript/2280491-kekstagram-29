@@ -51,7 +51,7 @@ const onSliderValueUpdate = () => {
   if (effect) {
     const sliderValue = sliderElement.noUiSlider.get();
     imgUploadPreviewImgElement.style.filter = `${effect.filter}(${sliderValue}${effect.measure})`;
-    effectLevelValueElement.value = parseFloat(sliderValue);
+    effectLevelValueElement.value = parseFloat(sliderValue).toFixed(2);
   }
 };
 

@@ -4,15 +4,21 @@ import { closeModal } from './load-new-photo.js';
 const HASHTAGS_MAX_NUMBER = 5;
 const formElement = document.querySelector('#upload-select-image');
 const hashtagsInputElement = formElement.querySelector('.text__hashtags');
+const submitButtonElement = formElement.querySelector('#upload-submit');
+const MessageStatuses = {
+  SUCCESS: 'success',
+  ERROR: 'error',
+};
+
+let messageElement;
 
 const pristine = new Pristine(formElement, {
   classTo: 'img-upload__field-wrapper',
   errorTextParent: 'img-upload__field-wrapper',
 });
 
-
-const onMessageClose = (modalMessage) => {
-  modalMessage.remove();
+const clearFormValidation = () => {
+  pristine.reset();
 };
 
 const onOutsideMessageClick = (evt) => {
@@ -21,36 +27,58 @@ const onOutsideMessageClick = (evt) => {
   }
 };
 
+const onModalCloseEscape = (evt) => {
+  if (evt.key === 'Escape') {
+    evt.preventDefault();
+    const modalMessage = document.querySelector('.success');
+    if (modalMessage) {
+      onMessageClose(modalMessage);
+    }
+  }
+};
+
+const showMessage = (element, text = null) => {
+  messageElement = element;
+  const modalElement = document.querySelector(`#${element}`).content;
+  const message = modalElement.cloneNode(true);
+  const messageModalElement = message.querySelector(`.${element}`);
+  const buttonElement = messageModalElement.querySelector(`.${element}__button`);
+  if (text) {
+    const errorTitleElement = messageModalElement.querySelector(`.${element}__title`);
+    errorTitleElement.textContent = text;
+  }
+  document.body.append(message);
+  buttonElement.addEventListener('click', onMessageClose);
+  messageModalElement.addEventListener('click', onOutsideMessageClick);
+  submitButtonElement.disabled = false;
+};
+
 const onSuccess = () => {
-  const successMoadalElement = document.querySelector('#success').content;
-  const successMessage = successMoadalElement.cloneNode(true);
-  const successMessageModalElement = successMessage.querySelector('.success');
-  const successButtonElement = successMessageModalElement.querySelector('.success__button');
-  document.body.append(successMessage);
-  successButtonElement.addEventListener('click', () => onMessageClose(successMessageModalElement));
-  successMessageModalElement.addEventListener('click', onOutsideMessageClick);
+  showMessage(MessageStatuses.SUCCESS);
   closeModal();
+  document.addEventListener('keydown', onModalCloseEscape);
 };
 
 const onError = (text = null) => {
-  const errorModalElement = document.querySelector('#error').content;
-  const errorMessage = errorModalElement.cloneNode(true);
-  const errorMessageModalElement = errorMessage.querySelector('.error');
-  const errorButtonElement = errorMessageModalElement.querySelector('.error__button');
-  if (text) {
-    const errorTitleElement = errorMessageModalElement.querySelector('.error__title');
-    errorTitleElement.textContent = text;
-  }
-  document.body.append(errorMessage);
-  errorButtonElement.addEventListener('click', () => onMessageClose(errorMessageModalElement));
-  errorMessageModalElement.addEventListener('click', onOutsideMessageClick);
+  showMessage(MessageStatuses.ERROR, text);
 };
+
+function onMessageClose() {
+  const messageModalElement = document.querySelector(`.${messageElement}`);
+  const buttonElement = messageModalElement.querySelector(`.${messageElement}__button`);
+
+  messageModalElement.remove();
+  document.removeEventListener('keydown', onModalCloseEscape);
+  buttonElement.removeEventListener('click', onMessageClose);
+  messageModalElement.removeEventListener('click', onOutsideMessageClick);
+}
 
 const onSubmit = (evt) => {
   evt.preventDefault();
 
   const isValid = pristine.validate();
   if (isValid) {
+    submitButtonElement.disabled = true;
     sendFormData(evt.target, onSuccess, onError);
   }
 };
@@ -95,4 +123,4 @@ pristine.addValidator(
   'превышено количество хэш-тегов'
 );
 
-export { onSubmit, onMessageClose, onError };
+export { onSubmit, onMessageClose, onError, clearFormValidation };

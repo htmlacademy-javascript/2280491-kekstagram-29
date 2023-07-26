@@ -12,6 +12,7 @@ const createThumbnail = ({ id, url, description, likes, comments }) => {
 
   thumbnail.setAttribute('data-id', id);
   thumbnail.querySelector('.picture__img').setAttribute('src', url);
+  thumbnail.querySelector('.picture__img').setAttribute('alt', description);
   thumbnail.querySelector('.picture__info').setAttribute('alt', description);
   thumbnail.querySelector('.picture__likes').textContent = likes;
   thumbnail.querySelector('.picture__comments').textContent = comments.length;
