@@ -6,7 +6,7 @@ const ScaleSizes = {
   MAX: 100,
   MIN: 25,
 };
-const FILE_TYPES = ['jpg', 'jpeg', 'png'];
+const fileTypes = ['jpg', 'jpeg', 'png'];
 let currentScale = ScaleSizes.MAX;
 
 const imgUploadInputElement = document.querySelector('#upload-file');
@@ -28,9 +28,9 @@ const onModalCloseClick = () => {
 const onModalCloseEscape = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    const modalMessage = document.querySelector('.success') || document.querySelector('.error');
-    if (modalMessage) {
-      onMessageClose(modalMessage);
+    const modalMessageElement = document.querySelector('.success') || document.querySelector('.error');
+    if (modalMessageElement) {
+      onMessageClose(modalMessageElement);
     } else {
       closeModal();
     }
@@ -94,7 +94,7 @@ const onFileChange = () => {
   document.body.classList.add('modal-open');
   const file = imgUploadInputElement.files[0];
   const fileName = file.name.toLowerCase();
-  const matches = FILE_TYPES.some((it) => fileName.endsWith(it));
+  const matches = fileTypes.some((it) => fileName.endsWith(it));
   if (matches) {
     const uploadedFile = URL.createObjectURL(file);
     imgUploadPreviewImgElement.src = uploadedFile;

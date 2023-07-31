@@ -30,9 +30,9 @@ const onOutsideMessageClick = (evt) => {
 const onModalCloseEscape = (evt) => {
   if (evt.key === 'Escape') {
     evt.preventDefault();
-    const modalMessage = document.querySelector('.success');
-    if (modalMessage) {
-      onMessageClose(modalMessage);
+    const modalSuccessMessageElement = document.querySelector('.success');
+    if (modalSuccessMessageElement) {
+      onMessageClose(modalSuccessMessageElement);
     }
   }
 };
@@ -88,7 +88,7 @@ const normalizeTags = (value) => value
   .split(' ')
   .filter((tag) => Boolean(tag.length));
 
-const validateuniqueHashtags = (value) => {
+const validateUniqueHashtags = (value) => {
   const hashtags = normalizeTags(value);
   const uniqueHashtags = new Set(hashtags.map((hashtag) => hashtag.toLowerCase()));
   return hashtags.length === uniqueHashtags.size;
@@ -113,7 +113,7 @@ pristine.addValidator(
 
 pristine.addValidator(
   hashtagsInputElement,
-  validateuniqueHashtags,
+  validateUniqueHashtags,
   'хэш-теги повторяются'
 );
 
