@@ -1,4 +1,4 @@
-const EFFECTS = [
+const effects = [
   {
     name: 'chrome',
     minValue: 0,
@@ -58,11 +58,11 @@ const onSliderValueUpdate = () => {
 const createSlider = () => {
   noUiSlider.create(sliderElement, {
     range: {
-      min: EFFECTS[0].minValue,
-      max: EFFECTS[0].maxValue,
+      min: effects[0].minValue,
+      max: effects[0].maxValue,
     },
-    start: EFFECTS[0].maxValue,
-    step: EFFECTS[0].step
+    start: effects[0].maxValue,
+    step: effects[0].step
   });
 
   imgUploadEffectLevelElement.classList.add('hidden');
@@ -91,7 +91,7 @@ const onPictureEffect = (evt) => {
       effect = null;
     } else {
       imgUploadEffectLevelElement.classList.remove('hidden');
-      effect = EFFECTS.find((element) => element.name === effectValue);
+      effect = effects.find((element) => element.name === effectValue);
       updateSlider();
     }
   }

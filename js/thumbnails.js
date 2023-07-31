@@ -5,14 +5,15 @@ import { debounce } from './util.js';
 
 const picturesContainerElement = document.querySelector('.pictures');
 const templateThumbnailElement = document.querySelector('#picture').content;
-const templatePicture = templateThumbnailElement.querySelector('.picture');
+const templatePictureElement = templateThumbnailElement.querySelector('.picture');
 
 const createThumbnail = ({ id, url, description, likes, comments }) => {
-  const thumbnail = templatePicture.cloneNode(true);
+  const thumbnail = templatePictureElement.cloneNode(true);
+  const thumbnailImgElement = thumbnail.querySelector('.picture__img');
 
   thumbnail.setAttribute('data-id', id);
-  thumbnail.querySelector('.picture__img').setAttribute('src', url);
-  thumbnail.querySelector('.picture__img').setAttribute('alt', description);
+  thumbnailImgElement.setAttribute('src', url);
+  thumbnailImgElement.setAttribute('alt', description);
   thumbnail.querySelector('.picture__info').setAttribute('alt', description);
   thumbnail.querySelector('.picture__likes').textContent = likes;
   thumbnail.querySelector('.picture__comments').textContent = comments.length;
